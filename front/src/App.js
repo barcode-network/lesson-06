@@ -6,43 +6,50 @@ import Web3 from 'web3';
 // Import contract
 import Customers from "./contracts/Customers.json";
 
+import data from './pets.json'
+
 
 
 class App extends Component {
 
   componentDidMount = async () => {
     const web3 = new Web3(Web3.givenProvider)
-    // console.log(web3)
-    // console.log(Customers.abi)
 
     const accounts = await web3.eth.getAccounts()
 
     //Instantiate the polyToken smart contract
     //***TODO: Grab deployed contract address from commandline */
-    const tutorialInstance = new web3.eth.Contract(Customers.abi, '0xC388ae2279d542450a4187918c35D9053f89b95b')
+    const contractInstance = new web3.eth.Contract(Customers.abi, '0x36d32F8a3582De966671dC61dc729E47364F61b4')
     // console.log(accounts, tutorialInstance)
     //Get account's POLY balance
-    console.log(tutorialInstance)
-    // const ttBalance = await tutorialInstance.methods.balanceOf(accounts[0]).call()
+    console.log(accounts, contractInstance)
+
   }
 
   render() {
+
+    const tableItems = data.map((value, key) =>
+      <tr key={value.id}>
+        <td>{value.name}</td>
+        <td>{value.age}</td>
+        <td>{value.location}</td>
+        <td><img height="100" src={value.picture}/></td>
+        <td><button>Claim</button></td>
+      </tr>
+    );
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Location</th>
+            <th>Photo</th>
+            <th>Action</th>
+          </tr>
+          {tableItems}
+        </table>
       </div>
     );
   }
