@@ -66,13 +66,19 @@ class App extends Component {
       <div className="App">
         <table>
           <thead>
+            <tr>
             <th>Name</th>
             <th>Age</th>
             <th>Location</th>
             <th>Photo</th>
             <th>Action</th>
+            </tr>
+            
           </thead>
-          {tableItems}
+          <tbody>
+            {tableItems}
+          </tbody>
+          
         </table>
       </div>
     );
