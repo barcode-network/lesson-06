@@ -28,8 +28,8 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts()
 
     //Instantiate the smart contract
-    // const contractInstance = new web3.eth.Contract(Customers.abi, '0x99E160adc01ca1E969b846a5897f3cb218A0900C')
-    const contractInstance = new web3.eth.Contract(Customers.abi, '0xE1764A90BC82DdDC5aF86D97d8c657AF672AAc57')
+    const contractInstance = new web3.eth.Contract(Customers.abi, '0x99E160adc01ca1E969b846a5897f3cb218A0900C')
+    // const contractInstance = new web3.eth.Contract(Customers.abi, '0xE1764A90BC82DdDC5aF86D97d8c657AF672AAc57')
     
     const getOwners = await contractInstance.methods.getCustomers().call();
     const tokenId = 0
@@ -39,8 +39,10 @@ class App extends Component {
     
     console.log(accounts, contractInstance)
     // //Get Types
-    // const tokenTypes = await contractInstance.methods.getTypes().call()
-    // console.log(tokenTypes)
+    const tokenTypes = await contractInstance.methods.getTypes().call()
+    console.log(tokenTypes)
+
+    console.log(Web3.utils.toAscii(tokenTypes[3]))
 
     this.setState({account:accounts[0],contract:contractInstance})
 
@@ -50,8 +52,8 @@ class App extends Component {
     // e.preventDefault()
     console.log(data)
     const {contract, account} = this.state
-
-    contract.methods.claim(data.id).send({ from: account, gas: 1000000 })
+    //Modified to send required ETH
+    contract.methods.claim(data.id).send({ value:Web3.utils.toWei('0.003'), from: account, gas: 1000000 })
       .then((result) => {
 
         console.log(result)

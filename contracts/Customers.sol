@@ -1,5 +1,5 @@
 pragma solidity ^0.5.0;
-pragma experimental ABIEncoderV2;
+// pragma experimental ABIEncoderV2;
 
 contract Customers {
 
@@ -8,7 +8,7 @@ contract Customers {
     //In 'tokentypes' mapping I can store the type of token
 
     address[16] public customers; //This is an array of addresses for storing owners of tokens
-    string[16] public tokenTypes; //This is an array for storing the token types
+    bytes32[16] public tokenTypes; //This is an array for storing the token types
 
     uint256 tokenPrice = 3000000000000000;
 
@@ -30,12 +30,12 @@ contract Customers {
         
         customers[couponId] = msg.sender;
         //msg.sender is the address of whoever initiated the transaction
-        tokenTypes[couponId] = "Something";
+        tokenTypes[couponId] = bytes32("Something");
 
         return couponId;
     }
 
-    function getTypes() public view returns (string[16] memory){
+    function getTypes() public view returns (bytes32[16] memory){
         return tokenTypes;
     }
 
