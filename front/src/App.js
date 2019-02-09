@@ -28,9 +28,19 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts()
 
     //Instantiate the smart contract
-    const contractInstance = new web3.eth.Contract(Customers.abi, '0x36d32F8a3582De966671dC61dc729E47364F61b4')
-
+    // const contractInstance = new web3.eth.Contract(Customers.abi, '0x99E160adc01ca1E969b846a5897f3cb218A0900C')
+    const contractInstance = new web3.eth.Contract(Customers.abi, '0xE1764A90BC82DdDC5aF86D97d8c657AF672AAc57')
+    
+    const getOwners = await contractInstance.methods.getCustomers().call();
+    const tokenId = 0
+    //Get Owners
+    const ownerAddress = await contractInstance.methods.getOwner(tokenId).call();
+    console.log(getOwners,ownerAddress)
+    
     console.log(accounts, contractInstance)
+    // //Get Types
+    // const tokenTypes = await contractInstance.methods.getTypes().call()
+    // console.log(tokenTypes)
 
     this.setState({account:accounts[0],contract:contractInstance})
 
@@ -54,8 +64,9 @@ class App extends Component {
 
     const tableItems = data.map((value, key) =>
       <tr key={value.id}>
-        <td>{value.name}</td>
+        <td>{value.name} {key}</td>
         <td>{value.age}</td>
+        <td>{value.breed}</td>
         <td>{value.location}</td>
         <td><img height="100" src={value.picture}/></td>
         <td><button onClick={()=>this.handleAdopt(value)}>Claim</button></td>
@@ -69,6 +80,7 @@ class App extends Component {
             <tr>
             <th>Name</th>
             <th>Age</th>
+            <th>Breed</th>
             <th>Location</th>
             <th>Photo</th>
             <th>Action</th>
